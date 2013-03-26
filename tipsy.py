@@ -9,7 +9,13 @@ app = Flask(__name__)
 
 @app.route("/")
 def index():
-	return "Woo I'm tipsy!"
+	return render_template("index.html", user_name="albymeono@gmail.com")
+
+@app.route("/tasks")
+def list_tasks():
+	db = model.connect_db()
+	tasks_from_db = model.get_tasks(db, None)
+	return render_template("list_tasks.html", tasks=tasks_from_db)
 
 if __name__ == "__main__":
-	app.run(debug=True)
+	app.run(debug=True) 

@@ -1,0 +1,18 @@
+<html>
+<head>
+
+	<title> Tasks List </title>
+</head>
+
+<body>
+
+	<h1> Task List</h1>
+	<ul>
+		{% for item in tasks %}
+			<li>Task {{ tasks['id'] }}: {{ tasks['title'] }}</li>
+		{%endfor%}
+	</ul>
+
+</body>
+
+</html>

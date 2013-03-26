@@ -14,8 +14,7 @@ def new_user(db, email, password, first_name, last_name
 	query = """INSERT INTO Users VALUES (NULL, ?, ?, ?, ?)"""
 	result = c.execute(query, (email, password, first_name, last_name))
 	db.commit()
-	#return result.lastrowid
-	print result.lastrowid
+	return result.lastrowid
 
 def authenticate(db, email, password):
 		c = db.cursor()
@@ -55,14 +54,34 @@ def get_user(db, user_id):
 def complete_task(db, task_id):			
 	c = db.cursor()
 	finish_time = datetime.datetime.now()
-	query = """UPDATE Tasks SET completed_at = 'finish_time'  WHERE id = ?"""
-	c.execute(query, ('task_id', ))
+	query = """UPDATE Tasks SET completed_at = ? WHERE id = ?"""
+	result = c.execute(query, (finish_time, task_id))
+	db.commit()
+	return result.lastrowid
+
+def get_tasks(db, user_id):
+	"""GEt all the tasks matching the user_id, getting all the tasks in the system if the user_id is not provided. Returns the results as a list of dictionaries."""
+	c = db.cursor()
+	if user_id:
+		query = """SELECT * FROM Tasks WHERE user_id = ?"""
+		c.execute(query, (user_id, ))	
+	else:
+		query = """SELECT * FROM Tasks"""
+		c.execute(query)
+	tasks = []
+	rows = c.fetchall()
+	for row in rows:
+		fields = ["id,", "user_id", "title", "created_at", "completed_at"]
+		value = dict(zip(fields, row))
+		tasks.append(value)
+	return tasks
+
+def get_task(db, id):
+	"""Gets a single task, given its id. Returns a dictionary of the task data."""
+	c = db.cursor()
+	query = """SELECT * FROM Tasks WHERE id = ?"""
+	c.execute(query, (id, ))
 	result = c.fetchone()
-	#result = c.execute(query,(id, completed_at))
-	# db.commit()
-	# return result.lastrowid
-	return result
-
-
-
-
+	if result:
+		fields = ["id,", "user_id", "title", "created_at", "completed_at"]
+		return dict(zip(fields, result))

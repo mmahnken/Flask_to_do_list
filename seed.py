@@ -10,17 +10,22 @@ user_id = model.new_user(db, "chriszf@gmail.com", "securepassword", "Christian",
 new = model.new_user(db, "albymeono@gmail.com", "password", "Alby", "Meono")
 print new 
 
-task = model.new_task(db, "Complete this task list", user_id)
+task = model.new_task(db, "Win at life", "Alby", "Meono")
 print task
 
-task = model.new_task(db, "poop", user_id)
-print task
-
-get = get_user(db, "albymeono@gmail.com")
+get = model.get_user(db, "albymeono@gmail.com")
 print get
 
-complete = complete_task(db, 'poop')
+complete = model.complete_task(db, 'poop')
 
-log_in = authenticate(db, "albymeono@gmail.com", "password")
+log_in = model.authenticate(db, "albymeono@gmail.com", "password")
 print log_in
+
+completed_lawblog = model.complete_task(db, 2)
+
+done = model.get_tasks(db,10)
+print "You have completed %s" % done
+
+one_tASK = model.get_task(db, 13)
+print one_tASK
  
