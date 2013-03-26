@@ -59,7 +59,7 @@ def complete_task(db, task_id):
 	db.commit()
 	return result.lastrowid
 
-def get_tasks(db, user_id):
+def get_tasks(db, user_id = None):
 	"""GEt all the tasks matching the user_id, getting all the tasks in the system if the user_id is not provided. Returns the results as a list of dictionaries."""
 	c = db.cursor()
 	if user_id:
@@ -71,7 +71,7 @@ def get_tasks(db, user_id):
 	tasks = []
 	rows = c.fetchall()
 	for row in rows:
-		fields = ["id,", "user_id", "title", "created_at", "completed_at"]
+		fields = ["id", "user_id", "title", "created_at", "completed_at"]
 		value = dict(zip(fields, row))
 		tasks.append(value)
 	return tasks
@@ -83,5 +83,6 @@ def get_task(db, id):
 	c.execute(query, (id, ))
 	result = c.fetchone()
 	if result:
-		fields = ["id,", "user_id", "title", "created_at", "completed_at"]
+		fields = ["id", "user_id", "title", "created_at", "completed_at"]
 		return dict(zip(fields, result))
+

@@ -2,6 +2,7 @@
 <head>
 
 	<title> Tasks List </title>
+	<link rel = "stylesheet" href="static/css/bootstrap.css" type = "text/css">
 </head>
 
 <body>
@@ -9,7 +10,7 @@
 	<h1> Task List</h1>
 	<ul>
 		{% for item in tasks %}
-			<li>Task {{ tasks['id'] }}: {{ tasks['title'] }}</li>
+			<li>Task {{ item['id'] }}: {{ item['title'] }}</li>
 		{%endfor%}
 	</ul>
 
